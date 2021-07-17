@@ -10,8 +10,11 @@
     <Window.DataContext>
         <local:MainVm/>
     </Window.DataContext>
+    <Window.Resources>
+        <local:BoolConverter x:Key="BoolColorConverter"/>
+    </Window.Resources>
     <StackPanel>
-        <DockPanel >
+        <DockPanel>
             <StatusBar DockPanel.Dock="Bottom">
                 <StatusBarItem Width="100">
                     <TextBlock Text="Yo"/>
@@ -30,86 +33,33 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="False">
-                            <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left"/>
+                            <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
                             <TextBlock Text=": "/>
-                            <TextBlock Text="{Binding Path=Percent}" DockPanel.Dock="Right"/>
+                            <TextBlock Text="{Binding Path=Percent}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
                         </DockPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackPanel DockPanel.Dock="Left">
+            <StackPanel DockPanel.Dock="Left" Width="100">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Name: "/>
-                    <TextBox Text="{Binding Path=SelectedItem.Name}"/>
+                    <TextBlock Text="Name: " Width="50"/>
+                    <TextBox Text="{Binding Path=SelectedItem.Name}" Width="50"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Value: "/>
-                    <TextBox Text="{Binding Path=SelectedItem.Percent}"/>
+                    <TextBlock Text="Value: " Width="50"/>
+                    <TextBox Text="{Binding Path=SelectedItem.Percent}" Width="50"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Thick: " Width="50"/>
+                    <TextBox Text="{Binding Path=SelectedItem.Thickness}" Width="50"/>
+                    <TextBlock Text=" in." Width="20"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel>
-                <TextBlock Text="assad"/>
+            <StackPanel Width="300">
+                <TextBlock Text="assad" HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel>
-                <Canvas>
-                    <Canvas.Resources>
-                        <DataTemplate DataType="{x:Type local:Rectangle}">
-                            <Rectangle
-                                Fill="Red" 
-                                Canvas.Left="{Binding X}" 
-                                Canvas.Top="{Binding Y}" 
-                                Width="{Binding Width}" 
-                                Height="{Binding Height}" />
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:Circle}">
-                            <Ellipse 
-                                Fill="Blue" 
-                                Canvas.Left="{Binding X}" 
-                                Canvas.Top="{Binding Y}" 
-                                Width="{Binding Radius}" 
-                                Height="{Binding Radius}" />
-                        </DataTemplate>
-                    </Canvas.Resources>
-                </Canvas>
-                <!--https://stackoverflow.com/questions/49880297/multiple-datatemplates-in-itemscontrol-and-canvas-->
-                <!--https://stackoverflow.com/questions/24026193/bind-collection-of-lines-to-canvas-in-wpf-->
-                <!--https://stackoverflow.com/questions/35970119/display-compositecollection-of-shapes-in-wpf-->
-
-                <!--<ItemsControl ItemsSource="{Binding  SelectedItem.Shapes}">
-                    -->
-                <!--<ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>-->
-                <!--
-                    <ItemsControl.Resources>
-                        <DataTemplate DataType="{x:Type local:Rectangle}">
-                            -->
-                <!--
-                            <Rectangle
-                                Fill="Red" 
-                                Canvas.Left="{Binding X}" 
-                                Canvas.Top="{Binding Y}" 
-                                Width="{Binding Width}" 
-                                Height="{Binding Height}" />
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:Circle}">
-                            <Ellipse 
-                                Fill="Blue" 
-                                Canvas.Left="{Binding X}" 
-                                Canvas.Top="{Binding Y}" 
-                                Width="{Binding Radius}" 
-                                Height="{Binding Radius}" />
-                        </DataTemplate>
-                    </ItemsControl.Resources>
-                </ItemsControl>-->
-                <!--<Canvas >
-                    -->
-                <!--<Rectangle Fill="Red" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" />
-                    <Ellipse Fill="LightGreen" Canvas.Left="25" Canvas.Top="25" Width="20" Height="20" />-->
-                <!--
-                </Canvas>-->
+                <Canvas x:Name="DirtyCanvas" Height="200"/>
             </StackPanel>
         </DockPanel>
     </StackPanel>

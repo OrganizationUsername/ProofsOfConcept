@@ -13,7 +13,14 @@ namespace LuggerWPF
         //Let's have one rectangle which contains multiple circles
         private double _percent;
         private string _name;
+        private double _thickness;
         public ObservableCollection<IShape> Shapes { get; set; } = new ObservableCollection<IShape>();
+
+        public bool Passes
+        {
+            get { return this.Percent <= 1.0; }
+        }
+
 
         public string Name
         {
@@ -21,10 +28,17 @@ namespace LuggerWPF
             set { _name = value; OnPropertyChanged(); }
         }
 
+        public double Thickness
+        {
+            get => _thickness;
+            set => _thickness = value;
+        }
+
+
         public double Percent
         {
             get => _percent;
-            set { _percent = value; OnPropertyChanged(); }
+            set { _percent = value; OnPropertyChanged(); OnPropertyChanged(nameof(Passes)); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
