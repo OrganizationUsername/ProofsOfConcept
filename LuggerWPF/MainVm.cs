@@ -13,6 +13,7 @@ namespace LuggerWPF
     public class MainVm : INotifyPropertyChanged
     {
         private Item _selectedItem;
+        public IShape SelectedShape { get; }
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public MainWindow MainWindow { get; set; } = null;
 
@@ -36,9 +37,10 @@ namespace LuggerWPF
                         {
                             X = 50,
                             Y = 50,
-                            Height = 30,
-                            Width = 30
-                        }, new Circle()
+                            Height = 120,
+                            Width = 90
+                        },
+                        new Circle()
                         {
                             Radius = 20,
                             X = 90,
@@ -58,9 +60,10 @@ namespace LuggerWPF
                         {
                             X = 25,
                             Y = 25,
-                            Height = 30,
-                            Width = 30
-                        }, new Circle()
+                            Height = 150,
+                            Width = 100
+                        },
+                        new Circle()
                         {
                             Radius = 20,
                             X = 90,
@@ -80,9 +83,10 @@ namespace LuggerWPF
                         {
                             X = 10,
                             Y = 10,
-                            Height = 30,
-                            Width = 30
-                        }, new Circle()
+                            Height = 90,
+                            Width = 150
+                        },
+                        new Circle()
                         {
                             Radius = 30,
                             X = 90,

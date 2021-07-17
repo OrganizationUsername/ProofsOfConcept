@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LuggerWPF"
+        xmlns:converter="clr-namespace:LuggerWPF.Converter"
         mc:Ignorable="d"
         Title="ItemsPoC" Height="450" Width="800" Topmost="True"
         ResizeMode="NoResize">
@@ -11,25 +12,30 @@
         <local:MainVm/>
     </Window.DataContext>
     <Window.Resources>
-        <local:BoolConverter x:Key="BoolColorConverter"/>
+        <converter:BoolConverter x:Key="BoolColorConverter"/>
     </Window.Resources>
     <StackPanel>
         <DockPanel>
-            <StatusBar DockPanel.Dock="Bottom">
-                <StatusBarItem Width="100">
-                    <TextBlock Text="Yo"/>
-                </StatusBarItem>
-                <Separator/>
-                <StatusBarItem Width="100">
-                    <TextBlock Text="Another"/>
-                </StatusBarItem>
-            </StatusBar>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Bold" IsCheckable="True"/>
+                    <MenuItem Header="_Italic" IsCheckable="True"/>
+                    <Separator/>
+                    <MenuItem Header="I_ncrease Font Size"/>
+                    <MenuItem Header="_Decrease Font Size"/>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Command="ApplicationCommands.Copy"/>
+                    <MenuItem Command="ApplicationCommands.Cut"/>
+                    <MenuItem Command="ApplicationCommands.Paste"/>
+                </MenuItem>
+            </Menu>
             <ListView 
                 DockPanel.Dock="Left" 
                 ItemsSource="{Binding Path=Items}" 
                 SelectedValue="{Binding Path=SelectedItem}" 
                 Width="200"
-                Height="390">
+                Height="300">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="False">
@@ -56,7 +62,27 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Width="300">
-                <TextBlock Text="assad" HorizontalAlignment="Center"/>
+                <!--Combine this with Scalar inputs-->
+                <TextBlock Text="Shapes" HorizontalAlignment="Center"/>
+
+                <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}">
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type local:Rectangle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Rectangle"/>
+                                <TextBox Text="{Binding X}"/>
+                                <TextBox Text="{Binding Y}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:Circle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Circle"/>
+                                <TextBox Text="{Binding X}"/>
+                                <TextBox Text="{Binding Y}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                </ItemsControl>
             </StackPanel>
             <StackPanel>
                 <Canvas x:Name="DirtyCanvas" Height="200"/>
