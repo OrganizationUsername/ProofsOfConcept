@@ -7,12 +7,14 @@
         xmlns:converter="clr-namespace:LuggerWPF.Converter"
         mc:Ignorable="d"
         Title="ItemsPoC" Height="450" Width="800" Topmost="True"
-        ResizeMode="NoResize">
+>
+    <!--ResizeMode="NoResize"-->
     <Window.DataContext>
         <local:MainVm/>
     </Window.DataContext>
     <Window.Resources>
         <converter:BoolConverter x:Key="BoolColorConverter"/>
+        <converter:BoolToBool x:Key="BoolToBoolConverter"/>
     </Window.Resources>
     <StackPanel>
         <DockPanel>
@@ -30,48 +32,125 @@
                     <MenuItem Command="ApplicationCommands.Paste"/>
                 </MenuItem>
             </Menu>
-            <ListView 
-                DockPanel.Dock="Left" 
+            <GroupBox DockPanel.Dock="Left" Header="Existing Assemblies" Height="356">
+                <DockPanel>
+                    <ListView 
+                        DockPanel.Dock="Top"
                 ItemsSource="{Binding Path=Items}" 
                 SelectedValue="{Binding Path=SelectedItem}" 
-                Width="200"
-                Height="300">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel LastChildFill="False">
-                            <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
-                            <TextBlock Text=": "/>
-                            <TextBlock Text="{Binding Path=Percent}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackPanel DockPanel.Dock="Left" Width="100">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Name: " Width="50"/>
-                    <TextBox Text="{Binding Path=SelectedItem.Name}" Width="50"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Value: " Width="50"/>
-                    <TextBox Text="{Binding Path=SelectedItem.Percent}" Width="50"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Thick: " Width="50"/>
-                    <TextBox Text="{Binding Path=SelectedItem.Thickness}" Width="50"/>
-                    <TextBlock Text=" in." Width="20"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Width="300">
-                <!--Combine this with Scalar inputs-->
+                Width="150">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="False">
+                                    <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                    <TextBlock Text=": "/>
+                                    <TextBlock Text="{Binding Path=Percent}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Content="Add new Assembly" Height="21" DockPanel.Dock="Bottom"/>
+                    <StackPanel Tag="Empty for DockPanel"/>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox DockPanel.Dock="Left" Width="175" Header="Assembly Information">
+                <DockPanel>
+                    <GroupBox Header="Adjust Assembly Params" DockPanel.Dock="Top">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Name: " Width="50"/>
+                                <TextBox Text="{Binding Path=SelectedItem.Name}" Width="50"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Value: " Width="50"/>
+                                <TextBox Text="{Binding Path=SelectedItem.Percent}" Width="50"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Thick: " Width="50"/>
+                                <TextBox Text="{Binding Path=SelectedItem.Thickness}" Width="50"/>
+                                <TextBlock Text=" in." Width="20"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Add Shape" DockPanel.Dock="Top">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Circle"/>
+                                <RadioButton IsChecked="True" GroupName="ShapeType" x:Name="CircleRadioButton"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Rectangle"/>
+                                <RadioButton GroupName="ShapeType" x:Name="RectangleRadioButton"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Add Circle" DockPanel.Dock="Top">
+                        <GroupBox.Visibility>
+                            <Binding Path="IsChecked" ElementName="CircleRadioButton" Converter="{StaticResource BoolToBoolConverter}" />
+                        </GroupBox.Visibility>
+                        <StackPanel>
+                            <!--Figure this one out: https://stackoverflow.com/questions/37812244/xaml-default-style-for-type-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Radius" Width="75"/>
+                                <TextBox Width="25" Text="{Binding Path=UnsavedCircle.Radius}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="X" Width="75"/>
+                                <TextBox Width="25" Text="{Binding Path=UnsavedCircle.X}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Y" Width="75"/>
+                                <TextBox Width="25" Text="{Binding Path=UnsavedCircle.Y}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Add Rectangle" DockPanel.Dock="Top">
+                        <GroupBox.Visibility>
+                            <Binding Path="IsChecked" ElementName="RectangleRadioButton" Converter="{StaticResource BoolToBoolConverter}" />
+                        </GroupBox.Visibility>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Width" Width="75"/>
+                                <TextBox Width="25" Text="{Binding UnsavedRectangle.Width}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Height" Width="75"/>
+                                <TextBox Width="25" Text="{Binding UnsavedRectangle.Height}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="X" Width="75"/>
+                                <TextBox Width="25" Text="{Binding UnsavedRectangle.X}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Y" Width="75"/>
+                                <TextBox Width="25" Text="{Binding UnsavedRectangle.Y}"/>
+                                <TextBlock Text=" in"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <Button Content="AddShape" Height="21" DockPanel.Dock="Bottom"/>
+                    <StackPanel Tag="Empty for DockPanel"/>
+                </DockPanel>
+            </GroupBox>
+            <StackPanel Width="200">
                 <TextBlock Text="Shapes" HorizontalAlignment="Center"/>
-
-                <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}">
+                <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}" Height="300" Width="200">
                     <ItemsControl.Resources>
                         <DataTemplate DataType="{x:Type local:Rectangle}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Rectangle"/>
                                 <TextBox Text="{Binding X}"/>
                                 <TextBox Text="{Binding Y}"/>
+                                <TextBlock Text="Width: "/>
+                                <TextBox Text="{Binding Width}"/>
+                                <TextBlock Text="Height: "/>
+                                <TextBox Text="{Binding Height}"/>
                             </StackPanel>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type local:Circle}">
@@ -79,6 +158,8 @@
                                 <TextBlock Text="Circle"/>
                                 <TextBox Text="{Binding X}"/>
                                 <TextBox Text="{Binding Y}"/>
+                                <TextBlock Text="Radius: "/>
+                                <TextBox Text="{Binding Radius}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.Resources>

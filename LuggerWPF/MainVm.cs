@@ -13,14 +13,16 @@ namespace LuggerWPF
     public class MainVm : INotifyPropertyChanged
     {
         private Item _selectedItem;
-        public IShape SelectedShape { get; }
+        public IShape SelectedShape { get; set; }
+        public Rectangle UnsavedRectangle { get; set; } = new Rectangle() { Height = 120, Width = 120, X = 0, Y = 0 };
+        public Circle UnsavedCircle { get; set; } = new Circle() { Radius = 50, X = 35, Y = 120 };
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public MainWindow MainWindow { get; set; } = null;
 
         public Item SelectedItem
         {
             get => _selectedItem;
-            set { _selectedItem = value; OnPropertyChanged(); this.DrawSomethingInVmBecauseIDontKnowBetter(); }
+            set { _selectedItem = value; OnPropertyChanged(); DrawSomethingInVmBecauseIDontKnowBetter(); }
         }
 
         public MainVm()
@@ -33,20 +35,13 @@ namespace LuggerWPF
                 Shapes = new ObservableCollection<IShape>(
                     new List<IShape>()
                     {
-                        new Rectangle()
-                        {
-                            X = 50,
-                            Y = 50,
-                            Height = 120,
-                            Width = 90
-                        },
-                        new Circle()
-                        {
-                            Radius = 20,
-                            X = 90,
-                            Y=100
-                        }
-                    })
+                        new Rectangle() {X = 50, Y = 50, Height = 120, Width = 90},
+                        new Circle() {Radius = 20, X = 090, Y=100},
+                        new Circle() {Radius = 20, X = 090, Y=100},
+                        new Circle() {Radius = 30, X = 110, Y=100},
+                        new Circle() {Radius = 60, X = 130, Y=100},
+                        new Circle() {Radius = 70, X = 85, Y=100},
+                    }),
             });
             Items.Add(new Item()
             {
@@ -56,20 +51,12 @@ namespace LuggerWPF
                 Shapes = new ObservableCollection<IShape>(
                     new List<IShape>()
                     {
-                        new Rectangle()
-                        {
-                            X = 25,
-                            Y = 25,
-                            Height = 150,
-                            Width = 100
-                        },
-                        new Circle()
-                        {
-                            Radius = 20,
-                            X = 90,
-                            Y=20
-                        }
-                    })
+                        new Rectangle() {X = 25, Y = 25, Height = 150, Width = 100},
+                        new Circle() {Radius = 20, X = 90, Y=20},
+                        new Circle() {Radius = 30, X = 110, Y=100},
+                        new Circle() {Radius = 60, X = 130, Y=100},
+                        new Circle() {Radius = 70, X = 85, Y=100},
+                    }),
             });
             Items.Add(new Item()
             {
@@ -79,30 +66,22 @@ namespace LuggerWPF
                 Shapes = new ObservableCollection<IShape>(
                     new List<IShape>()
                     {
-                        new Rectangle()
-                        {
-                            X = 10,
-                            Y = 10,
-                            Height = 90,
-                            Width = 150
-                        },
-                        new Circle()
-                        {
-                            Radius = 30,
-                            X = 90,
-                            Y=50
-                        }
-                    })
+                        new Rectangle() {X = 10, Y = 10, Height = 90, Width = 150},
+                        new Circle() {Radius = 30, X = 90, Y=50},
+
+                    }),
             });
-            if (Items.Count != 0)
+            if (Items.Count > 0)
             {
                 SelectedItem = Items.First();
             }
+
         }
 
         public void AddView(MainWindow mw)
         {
             MainWindow = mw;
+            DrawSomethingInVmBecauseIDontKnowBetter();
         }
         public void DrawSomethingInVmBecauseIDontKnowBetter()
         {

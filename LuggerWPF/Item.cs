@@ -10,7 +10,6 @@ namespace LuggerWPF
     /// </summary>
     public class Item : INotifyPropertyChanged
     {
-        //Let's have one rectangle which contains multiple circles
         private double _percent;
         private string _name;
         private double _thickness;
