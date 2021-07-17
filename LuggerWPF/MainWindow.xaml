@@ -138,36 +138,59 @@
                     <StackPanel Tag="Empty for DockPanel"/>
                 </DockPanel>
             </GroupBox>
-            <StackPanel Width="200">
-                <TextBlock Text="Shapes" HorizontalAlignment="Center"/>
-                <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}" Height="300" Width="200">
-                    <ItemsControl.Resources>
-                        <DataTemplate DataType="{x:Type local:Rectangle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Rectangle"/>
-                                <TextBox Text="{Binding X}"/>
-                                <TextBox Text="{Binding Y}"/>
-                                <TextBlock Text="Width: "/>
-                                <TextBox Text="{Binding Width}"/>
-                                <TextBlock Text="Height: "/>
-                                <TextBox Text="{Binding Height}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type local:Circle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Circle"/>
-                                <TextBox Text="{Binding X}"/>
-                                <TextBox Text="{Binding Y}"/>
-                                <TextBlock Text="Radius: "/>
-                                <TextBox Text="{Binding Radius}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.Resources>
-                </ItemsControl>
-            </StackPanel>
-            <StackPanel>
-                <Canvas x:Name="DirtyCanvas" Height="200"/>
-            </StackPanel>
+            <GroupBox Header="Existing Shapes in Assembly" Height="356">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <StackPanel>
+                        <StackPanel Width="200">
+                            <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}">
+                                <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type local:Rectangle}">
+                                        <StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Rectangle"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="X: "/>
+                                                <TextBox Text="{Binding X}"/>
+                                                <TextBlock Text="Y: "/>
+                                                <TextBox Text="{Binding Y}"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Width: "/>
+                                                <TextBox Text="{Binding Width}"/>
+                                                <TextBlock Text="Height: "/>
+                                                <TextBox Text="{Binding Height}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type local:Circle}">
+                                        <StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Circle"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Radius: "/>
+                                                <TextBox Text="{Binding Radius}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="X: "/>
+                                                <TextBox Text="{Binding X}"/>
+                                                <TextBlock Text="Y: "/>
+                                                <TextBox Text="{Binding Y}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.Resources>
+                            </ItemsControl>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </GroupBox>
+            <GroupBox Header="Canvas" DockPanel.Dock="Right">
+                <StackPanel>
+                    <Canvas x:Name="DirtyCanvas" Height="200"/>
+                </StackPanel>
+            </GroupBox>
         </DockPanel>
     </StackPanel>
 </Window>
