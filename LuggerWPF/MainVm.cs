@@ -5,20 +5,52 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using LuggerWPF.Annotations;
 
 namespace LuggerWPF
 {
+
+    public class AddShapeCommand : ICommand
+    {
+        private readonly MainVm mainVm;
+
+        public AddShapeCommand(MainVm MainVM)
+        {
+            mainVm = MainVM;
+        }
+        public bool CanExecute(object parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Execute(object parameter)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
+
+
     public class MainVm : INotifyPropertyChanged
     {
+        //Still need to add shapes
+        //Excel
+        //show shortest distance
+        //show shortest distance lines?
         private Item _selectedItem;
         public IShape SelectedShape { get; set; }
         public Rectangle UnsavedRectangle { get; set; } = new Rectangle() { Height = 120, Width = 120, X = 0, Y = 0 };
         public Circle UnsavedCircle { get; set; } = new Circle() { Diameter = 50, X = 35, Y = 120 };
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public MainWindow MainWindow { get; set; } = null;
+        public AddShapeCommand AddShapeCommand { get; set; }
+
+
 
         public Item SelectedItem
         {
@@ -28,7 +60,6 @@ namespace LuggerWPF
 
         public MainVm()
         {
-
             Items.Add(new Item()
             {
                 Owner = this,
@@ -44,8 +75,21 @@ namespace LuggerWPF
 
                     }),
             });
-
-
+            Items.Add(new Item()
+            {
+                Owner = this,
+                Name = "Big 2",
+                Ratio = 0.50,
+                Thickness = 1.0,
+                Demand = 500,
+                Shapes = new ObservableCollection<IShape>(
+                    new List<IShape>()
+                    {
+                        new Rectangle() {X = 0, Y = 0, Height = 90, Width = 150},
+                        new Circle() {Diameter = 25, X = 60, Y = 45},
+                        new Circle() {Diameter = 25, X = 90, Y = 45},
+                    }),
+            });
             Items.Add(new Item()
             {
                 Owner = this,
@@ -76,6 +120,7 @@ namespace LuggerWPF
             MainWindow = mw;
             DrawSomethingInVmBecauseIDontKnowBetter();
         }
+
         public void DrawSomethingInVmBecauseIDontKnowBetter()
         {
             if (MainWindow is null || SelectedItem is null) { return; }
@@ -112,16 +157,11 @@ namespace LuggerWPF
                 {
                     throw new ArgumentException("Bad shape.");
                 }
-
                 //arcs
                 //http://csharphelper.com/blog/2019/05/draw-an-elliptical-arc-in-wpf-and-xaml/
-
                 //dimension line?
-
             }
-
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

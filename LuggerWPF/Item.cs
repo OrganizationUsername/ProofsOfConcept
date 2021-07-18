@@ -35,7 +35,6 @@ namespace LuggerWPF
             set { _demand = value; OnPropertyChanged(); Ratio = Item.Calculate(this); }
         }
 
-
         public double Thickness
         {
             get => _thickness;
@@ -54,8 +53,6 @@ namespace LuggerWPF
             }
         }
 
-
-
         /// <summary>
         /// This is the function that will set Ratio. It really should be invoked in another way.
         /// </summary>
@@ -70,27 +67,21 @@ namespace LuggerWPF
                 shape.Owner = item;
             }
 
-
             foreach (var shape in item.Shapes) //If this were .net 5+ and lang=latest, I could use a cool switch statement.
             {
                 if (shape is Rectangle rectangle)
                 {
                     rectangles.Add(rectangle);
-                    //TODO add these two types to a List<T> then do the math.
                 }
                 else if (shape is Circle circle)
                 {
                     circles.Add(circle);
                 }
-                else
-                {
-                    throw new NotSupportedException("Fix this.");
-                }
+                else { throw new NotSupportedException("Fix this."); }
             }
 
             if (rectangles.Count != 1)
             {
-                //It shouldn't be too hard to identify which point is in which rectangle if there were multiple.
                 throw new NotSupportedException("Only one rectangle allowed atm.");
             }
             double minDistance = double.MaxValue;
@@ -108,8 +99,9 @@ namespace LuggerWPF
                 minDistance = Math.Min(minDistance, GetDistance(circle, rectangles.First()));
             }
 
-            double arbitrary = 60 * item.Thickness * minDistance;
-            return item.Demand / arbitrary;
+            double arbitraryConstant = 60;
+            double capacity = arbitraryConstant * item.Thickness * minDistance;
+            return item.Demand / capacity;
         }
 
         public static double GetDistance(Circle circle1, IShape anyShape)

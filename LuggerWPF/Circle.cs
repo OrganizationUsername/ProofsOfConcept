@@ -22,12 +22,7 @@ namespace LuggerWPF
         public double Y
         {
             get => _y;
-            set
-            {
-                _y = value;
-                UpdateOwner();
-                OnPropertyChanged();
-            }
+            set { _y = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
         public double Diameter
