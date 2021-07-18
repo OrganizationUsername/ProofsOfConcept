@@ -6,6 +6,7 @@ namespace LuggerWPF
 {
     public class Rectangle : INotifyPropertyChanged, IShape
     {
+        public Item Owner { get; set; }
         private double _y;
         private double _x;
         private double _height;
@@ -15,28 +16,44 @@ namespace LuggerWPF
         public double Width
         {
             get => _width;
-            set { _width = value; OnPropertyChanged(); }
+            set { _width = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
         public double Height
         {
             get => _height;
-            set { _height = value; OnPropertyChanged(); }
+            set { _height = value; OnPropertyChanged(); UpdateOwner(); }
 
         }
         public double X
         {
             get => _x;
-            set { _x = value; OnPropertyChanged(); }
+            set { _x = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
+        /// <summary>
+        /// Bottom of the rectangle
+        /// </summary>
         public double Y
         {
             get => _y;
-            set { _y = value; OnPropertyChanged(); }
+            set { _y = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
         public double Diameter { get; set; }
+
+        /// <summary>
+        /// Propogate update to Item
+        /// </summary>
+        public void UpdateOwner()
+        {
+            if (Owner != null)
+            {
+                Owner.Ratio = Item.Calculate(Owner);
+                PropertyChanged?.Invoke(Owner, new PropertyChangedEventArgs(nameof(Owner.Ratio)));
+                Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

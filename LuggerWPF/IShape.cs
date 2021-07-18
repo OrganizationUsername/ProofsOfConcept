@@ -2,6 +2,7 @@
 {
     public interface IShape
     {
+        Item Owner { get; set; }
         double Width { get; set; }
         double Height { get; set; }
         double X { get; set; }

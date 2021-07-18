@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Documents;
 using LuggerWPF.Annotations;
@@ -13,13 +14,14 @@ namespace LuggerWPF
     /// </summary>
     public class Item : INotifyPropertyChanged
     {
-        private double _percent;
+        public MainVm Owner { get; set; }
+        private double _ratio;
         private string _name;
         private double _thickness;
+        private double _demand;
         public ObservableCollection<IShape> Shapes { get; set; } = new ObservableCollection<IShape>();
 
-        public bool Passes => this.Percent <= 1.0;
-
+        public bool Passes => Ratio <= 1.0 && Ratio >= 0;
 
         public string Name
         {
@@ -27,27 +29,47 @@ namespace LuggerWPF
             set { _name = value; OnPropertyChanged(); }
         }
 
+        public double Demand
+        {
+            get => _demand;
+            set { _demand = value; OnPropertyChanged(); Ratio = Item.Calculate(this); }
+        }
+
+
         public double Thickness
         {
             get => _thickness;
-            set { _thickness = value; OnPropertyChanged(); }
+            set
+            {
+                _thickness = value; OnPropertyChanged(); Ratio = Item.Calculate(this);
+            }
         }
 
-        public double Percent
+        public double Ratio
         {
-            get => _percent;
-            set { _percent = value; OnPropertyChanged(); OnPropertyChanged(nameof(Passes)); }
+            get => Math.Round(_ratio, 2, MidpointRounding.AwayFromZero);
+            set
+            {
+                _ratio = value; OnPropertyChanged(); OnPropertyChanged(nameof(Passes));
+            }
         }
 
 
 
         /// <summary>
-        /// This is the function that will set Percent. It really should be invoked in another way.
+        /// This is the function that will set Ratio. It really should be invoked in another way.
         /// </summary>
-        public static double Calculate(ref Item item)
+        public static double Calculate(Item item)
         {
+            if (item.Shapes.Count == 0) { return -1; }
             List<Rectangle> rectangles = new List<Rectangle>();
             List<Circle> circles = new List<Circle>();
+
+            foreach (var shape in item.Shapes)
+            {
+                shape.Owner = item;
+            }
+
 
             foreach (var shape in item.Shapes) //If this were .net 5+ and lang=latest, I could use a cool switch statement.
             {
@@ -68,14 +90,10 @@ namespace LuggerWPF
 
             if (rectangles.Count != 1)
             {
-                //It shouldn't be too hard to identify which circle is in which rectangle if there were multiple.
+                //It shouldn't be too hard to identify which point is in which rectangle if there were multiple.
                 throw new NotSupportedException("Only one rectangle allowed atm.");
             }
-
-
-            //TODO: check all clear distances. Return (2* distance / thickness)
-
-            double minDistance = 0;
+            double minDistance = double.MaxValue;
 
             for (var i = 0; i < circles.Count; i++)
             {
@@ -85,34 +103,48 @@ namespace LuggerWPF
                 {
                     if (i == j) { continue; }
                     var secondaryCircle = circles[j];
-                    //get clear distance for circle to circle
+                    minDistance = Math.Min(minDistance, GetDistance(circle, secondaryCircle));
                 }
+                minDistance = Math.Min(minDistance, GetDistance(circle, rectangles.First()));
             }
-            return item.Thickness / (2.0 * minDistance);
+
+            double arbitrary = 60 * item.Thickness * minDistance;
+            return item.Demand / arbitrary;
         }
 
-        public static double GetDistance(IShape circle, IShape anyShape)
+        public static double GetDistance(Circle circle1, IShape anyShape)
         {
-
-            if (circle == null || anyShape == null) { throw new NullReferenceException("Only one rectangle allowed atm."); }
-            if (anyShape is Circle cicrcle)
+            if (circle1 == null || anyShape == null) { throw new NullReferenceException("Only one rectangle allowed atm."); }
+            if (anyShape is Circle circle2)
             {
-                //circle->Circle distance
-                return (Math.Sqrt((cicrcle.X - circle.X) * (cicrcle.X - circle.X) +
-                                  (cicrcle.Y - circle.Y) * (cicrcle.Y - circle.Y)) -
-                                    circle.Diameter / 2.0 -
-                                    cicrcle.Diameter / 2.0);
+                //point->Circle distance
+                return Math.Sqrt((circle2.X - circle1.X) * (circle2.X - circle1.X) +
+                                  (circle2.Y - circle1.Y) * (circle2.Y - circle1.Y)) -
+                                    circle1.Diameter / 2.0 -
+                                    circle2.Diameter / 2.0;
             }
             else if (anyShape is Rectangle rectangle)
             {
-                //Do circle-> Edge distance
+                if (Item.CircleCenterOutsideRectangle(circle1, rectangle))
+                {
+                    return -1;
+                }
+                List<Point> points = new List<Point>
+                {
+                    new Point(circle1.X - circle1.Diameter / 2.0, circle1.Y),
+                    new Point(circle1.X + circle1.Diameter / 2.0, circle1.Y),
+                    new Point(circle1.X, circle1.Y - circle1.Diameter / 2.0),
+                    new Point(circle1.X, circle1.Y + circle1.Diameter / 2.0)
+                };
+                double minDistance = double.MaxValue;
 
-                //Alright, so I should actually create line segments first.
-                //I'm still assuming that circle centers are inside the rectangle.
+                foreach (var point in points)
+                {
+                    double tempDistance = GetCircleToRectangleDistance(point, rectangle);
+                    minDistance = Math.Min(minDistance, tempDistance);
+                }
 
-
-
-                return 0;
+                return minDistance;
             }
             else
             {
@@ -120,6 +152,31 @@ namespace LuggerWPF
             }
         }
 
+        public static double GetCircleToRectangleDistance(Point point, Rectangle rectangle)
+        {
+            if (point.X < rectangle.X || point.X > rectangle.X + rectangle.Width ||
+                point.Y < rectangle.Y || point.Y > rectangle.Y + rectangle.Height)
+            {
+                return -100;
+            }
+
+            List<double> doubles = new List<double>()
+            {
+                point.X - rectangle.X,
+                rectangle.X + rectangle.Width-point.X,
+                point.Y - rectangle.Y,
+                rectangle.Y + rectangle.Height-point.Y
+            };
+
+            return doubles.Min();
+        }
+
+        public static bool CircleCenterOutsideRectangle(Circle circle, Rectangle rectangle)
+        {
+            //This just uses the center of the point. Why not use a point?
+            return circle.X < rectangle.X || circle.X > rectangle.X + rectangle.Width ||
+                    circle.Y < rectangle.Y || circle.Y > rectangle.Y + rectangle.Height;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

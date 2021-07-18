@@ -6,31 +6,46 @@ namespace LuggerWPF
 {
     public class Circle : INotifyPropertyChanged, IShape
     {
+        public Item Owner { get; set; }
         private double _y;
         private double _x;
         private double _diameter;
         public double Width { get; set; }
         public double Height { get; set; }
 
-
         public double X
         {
             get => _x;
-            set { _x = value; OnPropertyChanged(); }
+            set { _x = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
         public double Y
         {
             get => _y;
-            set { _y = value; OnPropertyChanged(); }
+            set
+            {
+                _y = value;
+                UpdateOwner();
+                OnPropertyChanged();
+            }
         }
 
         public double Diameter
         {
             get => _diameter;
-            set { _diameter = value; OnPropertyChanged(); }
+            set { _diameter = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
+        /// <summary>
+        /// Propogate update to Item
+        /// </summary>
+        public void UpdateOwner()
+        {
+            if (Owner != null)
+            {
+                Owner.Ratio = Item.Calculate(Owner);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

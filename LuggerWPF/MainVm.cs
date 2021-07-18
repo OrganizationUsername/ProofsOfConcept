@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -27,55 +28,47 @@ namespace LuggerWPF
 
         public MainVm()
         {
+
             Items.Add(new Item()
             {
-                Name = "Big 1",
-                Percent = 1.30,
+                Owner = this,
+                Name = "Big 4",
+                Ratio = 0.50,
                 Thickness = 1.0,
+                Demand = 500,
                 Shapes = new ObservableCollection<IShape>(
                     new List<IShape>()
                     {
-                        new Rectangle() {X = 50, Y = 50, Height = 120, Width = 90},
-                        new Circle() {Diameter = 20, X = 090, Y=100},
-                        new Circle() {Diameter = 20, X = 090, Y=100},
-                        new Circle() {Diameter = 30, X = 110, Y=100},
-                        new Circle() {Diameter = 60, X = 130, Y=100},
-                        new Circle() {Diameter = 70, X = 85, Y=100},
-                    }),
-            });
-            Items.Add(new Item()
-            {
-                Name = "Big 2",
-                Percent = 0.40,
-                Thickness = 1.0,
-                Shapes = new ObservableCollection<IShape>(
-                    new List<IShape>()
-                    {
-                        new Rectangle() {X = 25, Y = 25, Height = 150, Width = 100},
-                        new Circle() {Diameter = 20, X = 90, Y=20},
-                        new Circle() {Diameter = 30, X = 110, Y=100},
-                        new Circle() {Diameter = 60, X = 130, Y=100},
-                        new Circle() {Diameter = 70, X = 85, Y=100},
-                    }),
-            });
-            Items.Add(new Item()
-            {
-                Name = "Big 3",
-                Percent = 0.50,
-                Thickness = 1.0,
-                Shapes = new ObservableCollection<IShape>(
-                    new List<IShape>()
-                    {
-                        new Rectangle() {X = 10, Y = 10, Height = 90, Width = 150},
-                        new Circle() {Diameter = 30, X = 90, Y=50},
+                        new Rectangle() {X = 0, Y = 0, Height = 90, Width = 150},
+                        new Circle() {Diameter = 30, X = 20, Y = 20},
 
                     }),
+            });
+
+
+            Items.Add(new Item()
+            {
+                Owner = this,
+                Name = "Big 1",
+                Thickness = 1.0,
+                Demand = 500,
+                Shapes = new ObservableCollection<IShape>(
+                new List<IShape>()
+                {
+                        new Rectangle() {X = 0, Y = 0, Height = 90, Width = 150},
+                        new Circle() {Diameter = 30, X = 50, Y = 50},
+
+                }),
             });
             if (Items.Count > 0)
             {
                 SelectedItem = Items.First();
             }
 
+            foreach (var item in Items)
+            {
+                item.Ratio = Item.Calculate(item);
+            }
         }
 
         public void AddView(MainWindow mw)
@@ -100,8 +93,8 @@ namespace LuggerWPF
                     cir.Stroke = Brushes.Blue;
 
                     MainWindow.DirtyCanvas.Children.Add(cir);
-                    Canvas.SetBottom(cir, circle.Y);
-                    Canvas.SetLeft(cir, circle.X);
+                    Canvas.SetBottom(cir, circle.Y - (circle.Diameter / 2.0));
+                    Canvas.SetLeft(cir, circle.X - (circle.Diameter / 2.0));
                 }
                 else if (shape is Rectangle rectangle)
                 {
@@ -114,6 +107,10 @@ namespace LuggerWPF
                     MainWindow.DirtyCanvas.Children.Add(rec);
                     Canvas.SetBottom(rec, rectangle.Y);
                     Canvas.SetLeft(rec, rectangle.X);
+                }
+                else
+                {
+                    throw new ArgumentException("Bad shape.");
                 }
 
                 //arcs

@@ -38,13 +38,14 @@
                         DockPanel.Dock="Top"
                 ItemsSource="{Binding Path=Items}" 
                 SelectedValue="{Binding Path=SelectedItem}" 
-                Width="150">
+                Width="150"
+                SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel LastChildFill="False">
                                     <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
                                     <TextBlock Text=": "/>
-                                    <TextBlock Text="{Binding Path=Percent}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                    <TextBlock Text="{Binding Path=Ratio}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
                                 </DockPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -63,12 +64,17 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Value: " Width="50"/>
-                                <TextBox Text="{Binding Path=SelectedItem.Percent}" Width="50"/>
+                                <TextBox Text="{Binding Path=SelectedItem.Ratio}" Width="50"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Thick: " Width="50"/>
                                 <TextBox Text="{Binding Path=SelectedItem.Thickness}" Width="50"/>
-                                <TextBlock Text=" in." Width="20"/>
+                                <TextBlock Text=" in." Width="30"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Demand: " Width="50"/>
+                                <TextBox Text="{Binding Path=SelectedItem.Demand}" Width="50"/>
+                                <TextBlock Text=" unit." Width="30"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -170,13 +176,13 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="Diameter: "/>
-                                                <TextBox Text="{Binding Diameter}"/>
+                                                <TextBox Text="{Binding Diameter, Mode=TwoWay}"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="X: "/>
-                                                <TextBox Text="{Binding X}"/>
+                                                <TextBox Text="{Binding X, Mode=TwoWay}"/>
                                                 <TextBlock Text="Y: "/>
-                                                <TextBox Text="{Binding Y}"/>
+                                                <TextBox Text="{Binding Y, Mode=TwoWay}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>

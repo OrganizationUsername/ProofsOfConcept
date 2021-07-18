@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace LuggerWPF.Converter
 {
-    public class BoolConverter : IValueConverter
+    public class BoolToBool : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
             if ((bool)value)
             {
-                return Brushes.Black;
+                return Visibility.Visible;
             }
             else
             {
-                return Brushes.Red;
+                return Visibility.Collapsed;
             }
         }
 
