@@ -140,7 +140,10 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <Button Content="AddShape" Height="21" DockPanel.Dock="Bottom"/>
+                    <Button Content="AddShape" Height="21" DockPanel.Dock="Bottom" 
+                            Command="{Binding AddShapeCommand}"
+                            CommandParameter="{Binding ElementName=CircleRadioButton}" Click="Button_Click"
+                            />
                     <StackPanel Tag="Empty for DockPanel"/>
                 </DockPanel>
             </GroupBox>
@@ -176,13 +179,13 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="Diameter: "/>
-                                                <TextBox Text="{Binding Diameter, Mode=TwoWay}"/>
+                                                <TextBox Text="{Binding Diameter}"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="X: "/>
-                                                <TextBox Text="{Binding X, Mode=TwoWay}"/>
+                                                <TextBox Text="{Binding X}"/>
                                                 <TextBlock Text="Y: "/>
-                                                <TextBox Text="{Binding Y, Mode=TwoWay}"/>
+                                                <TextBox Text="{Binding Y}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>

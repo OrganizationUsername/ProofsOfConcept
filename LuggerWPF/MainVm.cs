@@ -23,13 +23,44 @@ namespace LuggerWPF
         }
         public bool CanExecute(object parameter)
         {
+            return true;
             throw new NotImplementedException();
         }
 
-        public void Execute(object parameter)
+        public void Execute(object circleRadioButton)
         {
+            if (circleRadioButton is RadioButton radiobutton)
+            {
+                if (radiobutton.IsChecked != null && (bool)radiobutton.IsChecked)
+                {
+                    mainVm.SelectedItem.Shapes.Add(
+                        new Circle()
+                        {
+                            Diameter = mainVm.UnsavedCircle.Diameter,
+                            X = mainVm.UnsavedCircle.X,
+                            Y = mainVm.UnsavedCircle.Y
+                        }
+                        );
+                }
+                else
+                {
+                    mainVm.SelectedItem.Shapes.Add(
+                        new Rectangle()
+                        {
+                            Height = mainVm.UnsavedRectangle.Height,
+                            Width = mainVm.UnsavedRectangle.Width,
+                            X = mainVm.UnsavedRectangle.X,
+                            Y = mainVm.UnsavedRectangle.Y
+                        }
+                    );
+                }
 
-            throw new NotImplementedException();
+                mainVm.DrawSomethingInVmBecauseIDontKnowBetter();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public event EventHandler CanExecuteChanged;
@@ -60,6 +91,7 @@ namespace LuggerWPF
 
         public MainVm()
         {
+            AddShapeCommand = new AddShapeCommand(this);
             Items.Add(new Item()
             {
                 Owner = this,
