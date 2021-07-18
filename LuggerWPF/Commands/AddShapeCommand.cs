@@ -18,7 +18,6 @@ namespace Commands.LuggerWPF
         public bool CanExecute(object parameter)
         {
             return true;
-            throw new NotImplementedException();
         }
 
         public void Execute(object circleRadioButton)

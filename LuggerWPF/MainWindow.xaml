@@ -20,17 +20,17 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Bold" IsCheckable="True"/>
-                    <MenuItem Header="_Italic" IsCheckable="True"/>
-                    <Separator/>
+                    <MenuItem Header="_Open" IsCheckable="True"/>
+                    <MenuItem Header="_SaveToExcel" IsCheckable="True"/>
+                    <!--<Separator/>
                     <MenuItem Header="I_ncrease Font Size"/>
-                    <MenuItem Header="_Decrease Font Size"/>
+                    <MenuItem Header="_Decrease Font Size"/>-->
                 </MenuItem>
-                <MenuItem Header="_Edit">
+                <!--<MenuItem Header="_Edit">
                     <MenuItem Command="ApplicationCommands.Copy"/>
                     <MenuItem Command="ApplicationCommands.Cut"/>
                     <MenuItem Command="ApplicationCommands.Paste"/>
-                </MenuItem>
+                </MenuItem>-->
             </Menu>
             <GroupBox DockPanel.Dock="Left" Header="Existing Assemblies" Height="356">
                 <DockPanel>

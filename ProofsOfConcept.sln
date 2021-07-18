@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuggerWPF", "LuggerWPF\Lugg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuggerTest", "LuggerTest\LuggerTest.csproj", "{8C8DC6E0-49AC-4AAD-8875-0E66051DD21F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelHelper", "ExcelHelper\ExcelHelper.csproj", "{6C402EE5-A4EF-458F-B30B-00723A92DA61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8C8DC6E0-49AC-4AAD-8875-0E66051DD21F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C8DC6E0-49AC-4AAD-8875-0E66051DD21F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C8DC6E0-49AC-4AAD-8875-0E66051DD21F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C402EE5-A4EF-458F-B30B-00723A92DA61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C402EE5-A4EF-458F-B30B-00723A92DA61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C402EE5-A4EF-458F-B30B-00723A92DA61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C402EE5-A4EF-458F-B30B-00723A92DA61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

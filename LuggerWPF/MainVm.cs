@@ -10,7 +10,6 @@ using System.Windows.Shapes;
 using Commands.LuggerWPF;
 using LuggerWPF.Annotations;
 
-
 //TODO: Save to Excel
 //TODO: Read from Excel
 //TODO: Round thicknesses
@@ -31,7 +30,8 @@ namespace LuggerWPF
         public MainWindow MainWindow { get; set; } = null;
         public AddShapeCommand AddShapeCommand { get; set; }
         public AddAssemblyCommand AddAssemblyCommand { get; set; }
-
+        public OpenExcelCommand OpenExcelCommand { get; set; }
+        public SaveExcelCommand SaveExcelCommand { get; set; }
 
         public Item SelectedItem
         {
@@ -43,6 +43,8 @@ namespace LuggerWPF
         {
             AddAssemblyCommand = new AddAssemblyCommand(this);
             AddShapeCommand = new AddShapeCommand(this);
+            OpenExcelCommand = new OpenExcelCommand(this);
+            SaveExcelCommand = new SaveExcelCommand(this);
             Items.Add(new Item()
             {
                 Owner = this,
@@ -120,7 +122,7 @@ namespace LuggerWPF
                     Ellipse cir = new Ellipse();
                     cir.Height = circle.Diameter;
                     cir.Width = circle.Diameter;
-                    cir.StrokeThickness = 3;
+                    cir.StrokeThickness = 1;
                     cir.Stroke = Brushes.Blue;
 
                     MainWindow.DirtyCanvas.Children.Add(cir);
@@ -132,7 +134,7 @@ namespace LuggerWPF
                     var rec = new System.Windows.Shapes.Rectangle();
                     rec.Height = rectangle.Height;
                     rec.Width = rectangle.Width;
-                    rec.StrokeThickness = 1;
+                    rec.StrokeThickness = 2;
                     rec.Stroke = Brushes.Red;
 
                     MainWindow.DirtyCanvas.Children.Add(rec);

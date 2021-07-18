@@ -58,6 +58,8 @@
     <Compile Include="Commands\AddAssemblyCommand.cs" />
     <Compile Include="Commands\AddShapeCommand.cs" />
     <Compile Include="Circle.cs" />
+    <Compile Include="Commands\OpenExcelCommand.cs" />
+    <Compile Include="Commands\SaveExcelCommand.cs" />
     <Compile Include="Converter\BoolToBool.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Rectangle.cs" />
@@ -106,6 +108,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelHelper\ExcelHelper.csproj">
+      <Project>{6c402ee5-a4ef-458f-b30b-00723a92da61}</Project>
+      <Name>ExcelHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
