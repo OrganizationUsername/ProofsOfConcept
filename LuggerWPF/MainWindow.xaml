@@ -91,8 +91,8 @@
                         <StackPanel>
                             <!--Figure this one out: https://stackoverflow.com/questions/37812244/xaml-default-style-for-type-->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Radius" Width="75"/>
-                                <TextBox Width="25" Text="{Binding Path=UnsavedCircle.Radius}"/>
+                                <TextBlock Text="Diameter" Width="75"/>
+                                <TextBox Width="25" Text="{Binding Path=UnsavedCircle.Diameter}"/>
                                 <TextBlock Text=" in"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -169,8 +169,8 @@
                                                 <TextBlock Text="Circle"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Radius: "/>
-                                                <TextBox Text="{Binding Radius}"/>
+                                                <TextBlock Text="Diameter: "/>
+                                                <TextBox Text="{Binding Diameter}"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="X: "/>

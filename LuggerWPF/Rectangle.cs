@@ -36,7 +36,7 @@ namespace LuggerWPF
             set { _y = value; OnPropertyChanged(); }
         }
 
-        public double Radius { get; set; }
+        public double Diameter { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

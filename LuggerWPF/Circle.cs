@@ -8,7 +8,7 @@ namespace LuggerWPF
     {
         private double _y;
         private double _x;
-        private double _radius;
+        private double _diameter;
         public double Width { get; set; }
         public double Height { get; set; }
 
@@ -25,10 +25,10 @@ namespace LuggerWPF
             set { _y = value; OnPropertyChanged(); }
         }
 
-        public double Radius
+        public double Diameter
         {
-            get => _radius;
-            set { _radius = value; OnPropertyChanged(); }
+            get => _diameter;
+            set { _diameter = value; OnPropertyChanged(); }
         }
 
 

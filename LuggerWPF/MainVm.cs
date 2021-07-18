@@ -15,7 +15,7 @@ namespace LuggerWPF
         private Item _selectedItem;
         public IShape SelectedShape { get; set; }
         public Rectangle UnsavedRectangle { get; set; } = new Rectangle() { Height = 120, Width = 120, X = 0, Y = 0 };
-        public Circle UnsavedCircle { get; set; } = new Circle() { Radius = 50, X = 35, Y = 120 };
+        public Circle UnsavedCircle { get; set; } = new Circle() { Diameter = 50, X = 35, Y = 120 };
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public MainWindow MainWindow { get; set; } = null;
 
@@ -36,11 +36,11 @@ namespace LuggerWPF
                     new List<IShape>()
                     {
                         new Rectangle() {X = 50, Y = 50, Height = 120, Width = 90},
-                        new Circle() {Radius = 20, X = 090, Y=100},
-                        new Circle() {Radius = 20, X = 090, Y=100},
-                        new Circle() {Radius = 30, X = 110, Y=100},
-                        new Circle() {Radius = 60, X = 130, Y=100},
-                        new Circle() {Radius = 70, X = 85, Y=100},
+                        new Circle() {Diameter = 20, X = 090, Y=100},
+                        new Circle() {Diameter = 20, X = 090, Y=100},
+                        new Circle() {Diameter = 30, X = 110, Y=100},
+                        new Circle() {Diameter = 60, X = 130, Y=100},
+                        new Circle() {Diameter = 70, X = 85, Y=100},
                     }),
             });
             Items.Add(new Item()
@@ -52,10 +52,10 @@ namespace LuggerWPF
                     new List<IShape>()
                     {
                         new Rectangle() {X = 25, Y = 25, Height = 150, Width = 100},
-                        new Circle() {Radius = 20, X = 90, Y=20},
-                        new Circle() {Radius = 30, X = 110, Y=100},
-                        new Circle() {Radius = 60, X = 130, Y=100},
-                        new Circle() {Radius = 70, X = 85, Y=100},
+                        new Circle() {Diameter = 20, X = 90, Y=20},
+                        new Circle() {Diameter = 30, X = 110, Y=100},
+                        new Circle() {Diameter = 60, X = 130, Y=100},
+                        new Circle() {Diameter = 70, X = 85, Y=100},
                     }),
             });
             Items.Add(new Item()
@@ -67,7 +67,7 @@ namespace LuggerWPF
                     new List<IShape>()
                     {
                         new Rectangle() {X = 10, Y = 10, Height = 90, Width = 150},
-                        new Circle() {Radius = 30, X = 90, Y=50},
+                        new Circle() {Diameter = 30, X = 90, Y=50},
 
                     }),
             });
@@ -94,8 +94,8 @@ namespace LuggerWPF
                 if (shape is Circle circle)
                 {
                     Ellipse cir = new Ellipse();
-                    cir.Height = circle.Radius;
-                    cir.Width = circle.Radius;
+                    cir.Height = circle.Diameter;
+                    cir.Width = circle.Diameter;
                     cir.StrokeThickness = 3;
                     cir.Stroke = Brushes.Blue;
 
