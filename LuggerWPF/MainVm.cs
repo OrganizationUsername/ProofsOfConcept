@@ -5,68 +5,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Commands.LuggerWPF;
 using LuggerWPF.Annotations;
+
+
+//TODO: Save to Excel
+//TODO: Read from Excel
+//TODO: Round thicknesses
 
 namespace LuggerWPF
 {
-
-    public class AddShapeCommand : ICommand
-    {
-        private readonly MainVm mainVm;
-
-        public AddShapeCommand(MainVm MainVM)
-        {
-            mainVm = MainVM;
-        }
-        public bool CanExecute(object parameter)
-        {
-            return true;
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object circleRadioButton)
-        {
-            if (circleRadioButton is RadioButton radiobutton)
-            {
-                if (radiobutton.IsChecked != null && (bool)radiobutton.IsChecked)
-                {
-                    mainVm.SelectedItem.Shapes.Add(
-                        new Circle()
-                        {
-                            Diameter = mainVm.UnsavedCircle.Diameter,
-                            X = mainVm.UnsavedCircle.X,
-                            Y = mainVm.UnsavedCircle.Y
-                        }
-                        );
-                }
-                else
-                {
-                    mainVm.SelectedItem.Shapes.Add(
-                        new Rectangle()
-                        {
-                            Height = mainVm.UnsavedRectangle.Height,
-                            Width = mainVm.UnsavedRectangle.Width,
-                            X = mainVm.UnsavedRectangle.X,
-                            Y = mainVm.UnsavedRectangle.Y
-                        }
-                    );
-                }
-
-                mainVm.DrawSomethingInVmBecauseIDontKnowBetter();
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public event EventHandler CanExecuteChanged;
-    }
-
-
     public class MainVm : INotifyPropertyChanged
     {
         //Still need to add shapes
@@ -80,7 +30,7 @@ namespace LuggerWPF
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         public MainWindow MainWindow { get; set; } = null;
         public AddShapeCommand AddShapeCommand { get; set; }
-
+        public AddAssemblyCommand AddAssemblyCommand { get; set; }
 
 
         public Item SelectedItem
@@ -91,6 +41,7 @@ namespace LuggerWPF
 
         public MainVm()
         {
+            AddAssemblyCommand = new AddAssemblyCommand(this);
             AddShapeCommand = new AddShapeCommand(this);
             Items.Add(new Item()
             {
@@ -133,14 +84,17 @@ namespace LuggerWPF
                 {
                         new Rectangle() {X = 0, Y = 0, Height = 90, Width = 150},
                         new Circle() {Diameter = 30, X = 50, Y = 50},
-
                 }),
             });
             if (Items.Count > 0)
             {
                 SelectedItem = Items.First();
             }
+            RecalculateAllRatios();
+        }
 
+        public void RecalculateAllRatios()
+        {
             foreach (var item in Items)
             {
                 item.Ratio = Item.Calculate(item);

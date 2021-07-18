@@ -50,7 +50,7 @@ namespace LuggerWPF
             if (Owner != null)
             {
                 Owner.Ratio = Item.Calculate(Owner);
-                PropertyChanged?.Invoke(Owner, new PropertyChangedEventArgs(nameof(Owner.Ratio)));
+                //PropertyChanged?.Invoke(Owner, new PropertyChangedEventArgs(nameof(Owner.Ratio)));
                 Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
             }
         }

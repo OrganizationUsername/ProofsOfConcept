@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AddAssemblyCommand.cs" />
+    <Compile Include="Commands\AddShapeCommand.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Converter\BoolToBool.cs" />
     <Compile Include="Point.cs" />

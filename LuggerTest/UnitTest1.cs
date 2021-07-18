@@ -1,11 +1,43 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using LuggerWPF;
 
 namespace LuggerTest
 {
+
+
     [TestClass]
-    public class ItemTests
+    public class ItemsTests //lol, these aren't item tests
+    {
+        [TestMethod]
+        public void CircleCircleDistanceTest1()
+        {
+            Item item = (new Item()
+            {
+                Owner = null,
+                Name = "Big 1",
+                Thickness = 1.0,
+                Demand = 500,
+                Shapes = new ObservableCollection<IShape>(
+                    new List<IShape>()
+                    {
+                        new Rectangle() {X = 0, Y = 0, Height = 90, Width = 150},
+                        new Circle() {Diameter = 30, X = 50, Y = 50},
+                    }),
+            });
+            double result = Item.Calculate(item);
+            Assert.AreEqual(0.3333, result, 0.01, "Bad circle distance.");
+        }
+
+    }
+
+
+
+
+    [TestClass]
+    public class ItemTests //lol, these aren't item tests
     {
         [TestMethod]
         public void CircleCircleDistanceTest1()
@@ -31,7 +63,7 @@ namespace LuggerTest
             Circle cir1 = new Circle() { Diameter = 30, X = -20, Y = 20 };
             Rectangle rect1 = new Rectangle() { X = 0, Y = 0, Height = 90, Width = 150 };
             double distance = Item.GetDistance(cir1, rect1);
-            Assert.AreEqual(-1,distance,"Non '-1 result when outside is done.");
+            Assert.AreEqual(-1, distance, "Non '-1 result when outside is done.");
         }
 
         [TestMethod]

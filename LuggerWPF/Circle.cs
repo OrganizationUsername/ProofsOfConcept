@@ -31,14 +31,14 @@ namespace LuggerWPF
             set { _diameter = value; OnPropertyChanged(); UpdateOwner(); }
         }
 
-        /// <summary>
-        /// Propogate update to Item
-        /// </summary>
         public void UpdateOwner()
         {
             if (Owner != null)
             {
                 Owner.Ratio = Item.Calculate(Owner);
+                Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
+                Owner.Owner.RecalculateAllRatios();
+
             }
         }
 

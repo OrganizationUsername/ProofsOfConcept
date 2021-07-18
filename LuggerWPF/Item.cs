@@ -86,15 +86,25 @@ namespace LuggerWPF
             }
             double minDistance = double.MaxValue;
 
-            for (var i = 0; i < circles.Count; i++)
+            foreach (Rectangle rect in rectangles)
+            {
+                foreach (Circle cir in circles)
+                {
+                    double tempVar = GetDistance(cir, rect);
+                    minDistance = Math.Min(minDistance, tempVar);
+                }
+            }
+
+
+            for (var i = 0; i < circles.Count - 1; i++)
             {
                 var circle = circles[i];
 
-                for (var j = 0; j < circles.Count; j++)
+                for (var j = i + 1; j < circles.Count; j++)
                 {
-                    if (i == j) { continue; }
                     var secondaryCircle = circles[j];
-                    minDistance = Math.Min(minDistance, GetDistance(circle, secondaryCircle));
+                    double tempVar = Math.Min(minDistance, GetDistance(circle, secondaryCircle));
+                    minDistance = Math.Min(minDistance, tempVar);
                 }
                 minDistance = Math.Min(minDistance, GetDistance(circle, rectangles.First()));
             }
@@ -142,6 +152,11 @@ namespace LuggerWPF
             {
                 throw new NotSupportedException("Only one rectangle allowed atm.");
             }
+        }
+
+        public Rectangle GetRectangle()
+        {
+            return (Rectangle)Owner.SelectedItem.Shapes.FirstOrDefault(x => x.GetType() == typeof(Rectangle));
         }
 
         public static double GetCircleToRectangleDistance(Point point, Rectangle rectangle)
