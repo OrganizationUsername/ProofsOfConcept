@@ -60,7 +60,7 @@
     <Compile Include="Circle.cs" />
     <Compile Include="Commands\OpenExcelCommand.cs" />
     <Compile Include="Commands\SaveExcelCommand.cs" />
-    <Compile Include="Commands\SmoothRectangleThickness.cs" />
+    <Compile Include="Commands\FixCommand.cs" />
     <Compile Include="Converter\BoolToBool.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Rectangle.cs" />

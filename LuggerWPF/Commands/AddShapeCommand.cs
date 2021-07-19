@@ -55,7 +55,7 @@ namespace Commands.LuggerWPF
                     );
                 }
                 _mainVm.RecalculateAllRatios();
-                _mainVm.DrawSomethingInVmBecauseIDontKnowBetter();
+                _mainVm.ThisIsBestPractice();
             }
             else
             {

@@ -16,29 +16,36 @@ namespace LuggerWPF
         public double X
         {
             get => _x;
-            set { _x = value; OnPropertyChanged(); UpdateOwner(); }
+            set => Setter(value, ref _x);
         }
 
         public double Y
         {
             get => _y;
-            set { _y = value; OnPropertyChanged(); UpdateOwner(); }
+            set => Setter(value, ref _y);
         }
 
         public double Diameter
         {
             get => _diameter;
-            set { _diameter = value; OnPropertyChanged(); UpdateOwner(); }
+            set => Setter(value, ref _diameter);
         }
 
         public void UpdateOwner()
         {
-            if (Owner != null)
-            {
-                Owner.Ratio = Item.Calculate(Owner);
-                Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
-                Owner.Owner.RecalculateAllRatios();
-            }
+            if (Owner is null) return;
+
+            Owner.Ratio = Item.Calculate(Owner);
+            Owner.Owner.ThisIsBestPractice();
+            Owner.Owner.RecalculateAllRatios();
+        }
+
+        public void Setter<T>(T newValue, ref T backingField)
+        {
+            if (newValue.Equals(backingField)) return;
+
+            backingField = newValue;
+            OnPropertyChanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,6 +54,7 @@ namespace LuggerWPF
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            UpdateOwner();
         }
     }
 }

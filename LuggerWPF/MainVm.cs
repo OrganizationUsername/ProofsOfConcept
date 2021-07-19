@@ -10,11 +10,15 @@ using System.Windows.Shapes;
 using Commands.LuggerWPF;
 using LuggerWPF.Annotations;
 
+//TODO: Round thicknesses
 //TODO: Save to Excel
 //TODO: Read from Excel
-//TODO: Round thicknesses
 //TODO: Allow circles to be deleted
 //TODO: Label circles in "Existing shapes" and in Canvas
+//TODO: Undo/Redo
+//TODO: Parameterize unit tests
+//"The object mother" //https://stackoverflow.com/questions/923319/what-is-an-objectmother
+//Immediate mode vs Retain mode (hold state and update other guys = UI)
 
 namespace LuggerWPF
 {
@@ -34,11 +38,12 @@ namespace LuggerWPF
         public AddAssemblyCommand AddAssemblyCommand { get; set; }
         public OpenExcelCommand OpenExcelCommand { get; set; }
         public SaveExcelCommand SaveExcelCommand { get; set; }
+        public FixCommand FixCommand { get; set; }
 
         public Item SelectedItem
         {
             get => _selectedItem;
-            set { _selectedItem = value; OnPropertyChanged(); DrawSomethingInVmBecauseIDontKnowBetter(); }
+            set { _selectedItem = value; OnPropertyChanged(); ThisIsBestPractice(); }
         }
 
         public MainVm()
@@ -47,6 +52,8 @@ namespace LuggerWPF
             AddShapeCommand = new AddShapeCommand(this);
             OpenExcelCommand = new OpenExcelCommand(this);
             SaveExcelCommand = new SaveExcelCommand(this);
+            FixCommand = new FixCommand(this);
+
             Items.Add(new Item()
             {
                 Owner = this,
@@ -108,10 +115,10 @@ namespace LuggerWPF
         public void AddView(MainWindow mw)
         {
             MainWindow = mw;
-            DrawSomethingInVmBecauseIDontKnowBetter();
+            ThisIsBestPractice();
         }
 
-        public void DrawSomethingInVmBecauseIDontKnowBetter()
+        public void ThisIsBestPractice()
         {
             if (MainWindow is null || SelectedItem is null) { return; }
 

@@ -32,7 +32,6 @@
                     <MenuItem Command="ApplicationCommands.Paste"/>
                 </MenuItem>-->
             </Menu>
-
             <GroupBox DockPanel.Dock="Left" Header="Existing Assemblies" Height="356">
                 <DockPanel>
                     <ListView 
@@ -46,13 +45,16 @@
                             <DataTemplate>
                                 <DockPanel LastChildFill="False">
                                     <TextBlock Text="{Binding Path=Name}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
-                                    <TextBlock Text=": "/>
-                                    <TextBlock Text="{Binding Path=Ratio}" DockPanel.Dock="Right" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                    <TextBlock Text=": " DockPanel.Dock="Left"/>
+                                    <TextBlock Text="{Binding Path=Ratio}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                    <TextBlock Text="  " DockPanel.Dock="Left"/>
+                                    <TextBlock Text="{Binding Path=Thickness}" DockPanel.Dock="Left" Foreground="{Binding Passes, Converter={StaticResource BoolColorConverter}}"/>
+                                    <TextBlock Text="in." DockPanel.Dock="Left"/>
                                 </DockPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button Content="Smooth Results" DockPanel.Dock="Bottom"/>
+                    <Button Content="Fix Results" DockPanel.Dock="Bottom" Command="{Binding FixCommand}"/>
                     <Button Content="Add new Assembly" Height="21" DockPanel.Dock="Bottom"
                             Command="{Binding AddAssemblyCommand}"/>
                     <StackPanel Tag="Empty for DockPanel"/>

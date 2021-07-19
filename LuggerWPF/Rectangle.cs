@@ -18,26 +18,16 @@ namespace LuggerWPF
             set => Setter(value, ref _width);
         }
 
-        //Message AdmSnyder for further assistance.
-        public void Setter<T>(T newValue, ref T backingField)
-        {
-            if (!newValue.Equals(backingField))
-            {
-                backingField = newValue;
-                OnPropertyChanged();
-            }
-        }
-
         public double Height
         {
             get => _height;
-            set { _height = value; OnPropertyChanged(); }
+            set => Setter(value, ref _height);
 
         }
         public double X
         {
             get => _x;
-            set { _x = value; OnPropertyChanged(); }
+            set => Setter(value, ref _x);
         }
 
         /// <summary>
@@ -46,7 +36,7 @@ namespace LuggerWPF
         public double Y
         {
             get => _y;
-            set { _y = value; OnPropertyChanged(); }
+            set => Setter(value, ref _y);
         }
 
         public double Diameter { get; set; }
@@ -56,10 +46,20 @@ namespace LuggerWPF
         /// </summary>
         public void UpdateOwner()
         {
-            if (Owner != null)
+            if (Owner is null) return;
+
+            Owner.Ratio = Item.Calculate(Owner);
+            Owner.Owner.ThisIsBestPractice();
+            Owner.Owner.RecalculateAllRatios();
+
+        }
+
+        public void Setter<T>(T newValue, ref T backingField)
+        {
+            if (!newValue.Equals(backingField))
             {
-                Owner.Ratio = Item.Calculate(Owner);
-                Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
+                backingField = newValue;
+                OnPropertyChanged();
             }
         }
 
