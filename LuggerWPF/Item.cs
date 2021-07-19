@@ -10,7 +10,7 @@ using LuggerWPF.Annotations;
 namespace LuggerWPF
 {
     /// <summary>
-    /// This actually represents "assembly"
+    /// This actually represents "assembly", but that's not an appropriate name in programming.
     /// </summary>
     public class Item : INotifyPropertyChanged
     {
@@ -47,10 +47,7 @@ namespace LuggerWPF
         public double Ratio
         {
             get => Math.Round(_ratio, 2, MidpointRounding.AwayFromZero);
-            set
-            {
-                _ratio = value; OnPropertyChanged(); OnPropertyChanged(nameof(Passes));
-            }
+            set { _ratio = value; OnPropertyChanged(); OnPropertyChanged(nameof(Passes)); }
         }
 
         /// <summary>
@@ -95,7 +92,6 @@ namespace LuggerWPF
                 }
             }
 
-
             for (var i = 0; i < circles.Count - 1; i++)
             {
                 var circle = circles[i];
@@ -108,7 +104,6 @@ namespace LuggerWPF
                 }
                 minDistance = Math.Min(minDistance, GetDistance(circle, rectangles.First()));
             }
-
             double arbitraryConstant = 60;
             double capacity = arbitraryConstant * item.Thickness * minDistance;
             return item.Demand / capacity;
@@ -117,40 +112,34 @@ namespace LuggerWPF
         public static double GetDistance(Circle circle1, IShape anyShape)
         {
             if (circle1 == null || anyShape == null) { throw new NullReferenceException("Only one rectangle allowed atm."); }
-            if (anyShape is Circle circle2)
+            switch (anyShape)
             {
-                //point->Circle distance
-                return Math.Sqrt((circle2.X - circle1.X) * (circle2.X - circle1.X) +
-                                  (circle2.Y - circle1.Y) * (circle2.Y - circle1.Y)) -
-                                    circle1.Diameter / 2.0 -
-                                    circle2.Diameter / 2.0;
-            }
-            else if (anyShape is Rectangle rectangle)
-            {
-                if (Item.CircleCenterOutsideRectangle(circle1, rectangle))
-                {
+                case Circle circle2:
+                    return Math.Sqrt((circle2.X - circle1.X) * (circle2.X - circle1.X) +
+                                     (circle2.Y - circle1.Y) * (circle2.Y - circle1.Y)) -
+                           circle1.Diameter / 2.0 - circle2.Diameter / 2.0;
+                case Rectangle rectangle when Item.CircleCenterOutsideRectangle(circle1, rectangle):
                     return -1;
-                }
-                List<Point> points = new List<Point>
-                {
-                    new Point(circle1.X - circle1.Diameter / 2.0, circle1.Y),
-                    new Point(circle1.X + circle1.Diameter / 2.0, circle1.Y),
-                    new Point(circle1.X, circle1.Y - circle1.Diameter / 2.0),
-                    new Point(circle1.X, circle1.Y + circle1.Diameter / 2.0)
-                };
-                double minDistance = double.MaxValue;
+                case Rectangle rectangle:
+                    {
+                        List<Point> points = new List<Point>
+                    {
+                        new Point(circle1.X - circle1.Diameter / 2.0, circle1.Y),
+                        new Point(circle1.X + circle1.Diameter / 2.0, circle1.Y),
+                        new Point(circle1.X, circle1.Y - circle1.Diameter / 2.0),
+                        new Point(circle1.X, circle1.Y + circle1.Diameter / 2.0)
+                    };
+                        double minDistance = double.MaxValue;
 
-                foreach (var point in points)
-                {
-                    double tempDistance = GetCircleToRectangleDistance(point, rectangle);
-                    minDistance = Math.Min(minDistance, tempDistance);
-                }
-
-                return minDistance;
-            }
-            else
-            {
-                throw new NotSupportedException("Only one rectangle allowed atm.");
+                        foreach (var point in points)
+                        {
+                            double tempDistance = GetCircleToRectangleDistance(point, rectangle);
+                            minDistance = Math.Min(minDistance, tempDistance);
+                        }
+                        return minDistance;
+                    }
+                default:
+                    throw new NotSupportedException("Only one rectangle allowed atm.");
             }
         }
 
@@ -174,7 +163,6 @@ namespace LuggerWPF
                 point.Y - rectangle.Y,
                 rectangle.Y + rectangle.Height-point.Y
             };
-
             return doubles.Min();
         }
 

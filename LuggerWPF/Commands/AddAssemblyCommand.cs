@@ -25,7 +25,7 @@ namespace Commands.LuggerWPF
             _mainVm.Items.Add(new Item()
             {
                 Owner = _mainVm,
-                Name = "Big 4",
+                Name = $"Big {_mainVm.Items.Count + 1}",
                 Ratio = 0.50,
                 Thickness = 1.0,
                 Demand = 500,

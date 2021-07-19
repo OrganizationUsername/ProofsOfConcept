@@ -13,6 +13,8 @@ using LuggerWPF.Annotations;
 //TODO: Save to Excel
 //TODO: Read from Excel
 //TODO: Round thicknesses
+//TODO: Allow circles to be deleted
+//TODO: Label circles in "Existing shapes" and in Canvas
 
 namespace LuggerWPF
 {

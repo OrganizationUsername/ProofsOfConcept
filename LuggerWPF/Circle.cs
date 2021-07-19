@@ -38,7 +38,6 @@ namespace LuggerWPF
                 Owner.Ratio = Item.Calculate(Owner);
                 Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
                 Owner.Owner.RecalculateAllRatios();
-
             }
         }
 

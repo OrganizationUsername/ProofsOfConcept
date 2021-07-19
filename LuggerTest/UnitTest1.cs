@@ -6,8 +6,6 @@ using LuggerWPF;
 
 namespace LuggerTest
 {
-
-
     [TestClass]
     public class ItemsTests //lol, these aren't item tests
     {
@@ -30,11 +28,7 @@ namespace LuggerTest
             double result = Item.Calculate(item);
             Assert.AreEqual(0.3333, result, 0.01, "Bad circle distance.");
         }
-
     }
-
-
-
 
     [TestClass]
     public class ItemTests //lol, these aren't item tests
@@ -63,7 +57,7 @@ namespace LuggerTest
             Circle cir1 = new Circle() { Diameter = 30, X = -20, Y = 20 };
             Rectangle rect1 = new Rectangle() { X = 0, Y = 0, Height = 90, Width = 150 };
             double distance = Item.GetDistance(cir1, rect1);
-            Assert.AreEqual(-1, distance, "Non '-1 result when outside is done.");
+            Assert.AreEqual(-1, distance, "Non '-1' result when outside is done.");
         }
 
         [TestMethod]
@@ -72,8 +66,7 @@ namespace LuggerTest
             Circle cir1 = new Circle() { Diameter = 30, X = 200, Y = 20 };
             Rectangle rect1 = new Rectangle() { X = 0, Y = 0, Height = 90, Width = 150 };
             double distance = Item.GetDistance(cir1, rect1);
-            Assert.AreEqual(-1, distance, "Non '-1 result when outside is done.");
-
+            Assert.AreEqual(-1, distance, "Non '-1' result when outside is done.");
         }
 
         [TestMethod]
@@ -82,8 +75,7 @@ namespace LuggerTest
             Circle cir1 = new Circle() { Diameter = 30, X = 20, Y = -20 };
             Rectangle rect1 = new Rectangle() { X = 0, Y = 0, Height = 90, Width = 150 };
             double distance = Item.GetDistance(cir1, rect1);
-            Assert.AreEqual(-1, distance, "Non '-1 result when outside is done.");
-
+            Assert.AreEqual(-1, distance, "Non '-1' result when outside is done.");
         }
 
         [TestMethod]
@@ -92,8 +84,7 @@ namespace LuggerTest
             Circle cir1 = new Circle() { Diameter = 30, X = 20, Y = 200 };
             Rectangle rect1 = new Rectangle() { X = 0, Y = 0, Height = 90, Width = 150 };
             double distance = Item.GetDistance(cir1, rect1);
-            Assert.AreEqual(-1, distance, "Non '-1 result when outside is done.");
-
+            Assert.AreEqual(-1, distance, "Non '-1' result when outside is done.");
         }
 
         [TestMethod]
@@ -152,13 +143,6 @@ namespace LuggerTest
             double distance = Item.GetDistance(cir1, rect1);
         }
 
-
-
-
-
-
-
-
         [TestMethod]
         public void CircleRectangleDistanceTest1()
         {
@@ -167,8 +151,5 @@ namespace LuggerTest
             double distance = Item.GetDistance(cir1, rect1);
             Assert.AreEqual(5, distance, 0.01, "Bad circle distance.");
         }
-
-
-
     }
 }

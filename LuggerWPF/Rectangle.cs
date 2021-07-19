@@ -12,23 +12,32 @@ namespace LuggerWPF
         private double _height;
         private double _width;
 
-
         public double Width
         {
             get => _width;
-            set { _width = value; OnPropertyChanged(); UpdateOwner(); }
+            set => Setter(value, ref _width);
+        }
+
+        //Message AdmSnyder for further assistance.
+        public void Setter<T>(T newValue, ref T backingField)
+        {
+            if (!newValue.Equals(backingField))
+            {
+                backingField = newValue;
+                OnPropertyChanged();
+            }
         }
 
         public double Height
         {
             get => _height;
-            set { _height = value; OnPropertyChanged(); UpdateOwner(); }
+            set { _height = value; OnPropertyChanged(); }
 
         }
         public double X
         {
             get => _x;
-            set { _x = value; OnPropertyChanged(); UpdateOwner(); }
+            set { _x = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -37,7 +46,7 @@ namespace LuggerWPF
         public double Y
         {
             get => _y;
-            set { _y = value; OnPropertyChanged(); UpdateOwner(); }
+            set { _y = value; OnPropertyChanged(); }
         }
 
         public double Diameter { get; set; }
@@ -50,7 +59,6 @@ namespace LuggerWPF
             if (Owner != null)
             {
                 Owner.Ratio = Item.Calculate(Owner);
-                //PropertyChanged?.Invoke(Owner, new PropertyChangedEventArgs(nameof(Owner.Ratio)));
                 Owner.Owner.DrawSomethingInVmBecauseIDontKnowBetter();
             }
         }
@@ -61,6 +69,7 @@ namespace LuggerWPF
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            UpdateOwner();
         }
     }
 }

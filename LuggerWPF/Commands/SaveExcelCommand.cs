@@ -25,9 +25,6 @@ namespace Commands.LuggerWPF
             //Rectangles in another
             //Parameters in another
             //Maybe also save the ratio, but don't read it in.
-
-
-
         }
 
         public event EventHandler CanExecuteChanged;

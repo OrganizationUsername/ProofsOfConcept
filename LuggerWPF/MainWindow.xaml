@@ -32,6 +32,7 @@
                     <MenuItem Command="ApplicationCommands.Paste"/>
                 </MenuItem>-->
             </Menu>
+
             <GroupBox DockPanel.Dock="Left" Header="Existing Assemblies" Height="356">
                 <DockPanel>
                     <ListView 
@@ -40,7 +41,7 @@
                 SelectedValue="{Binding Path=SelectedItem}" 
                 Width="150"
                 SelectionMode="Single"
-                Height="300">
+                Height="270">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel LastChildFill="False">
@@ -51,7 +52,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
+                    <Button Content="Smooth Results" DockPanel.Dock="Bottom"/>
                     <Button Content="Add new Assembly" Height="21" DockPanel.Dock="Bottom"
                             Command="{Binding AddAssemblyCommand}"/>
                     <StackPanel Tag="Empty for DockPanel"/>
