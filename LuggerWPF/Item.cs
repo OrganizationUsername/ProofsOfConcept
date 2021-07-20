@@ -59,9 +59,11 @@ namespace LuggerWPF
             List<Rectangle> rectangles = new List<Rectangle>();
             List<Circle> circles = new List<Circle>();
 
-            foreach (var shape in item.Shapes)
+            for (var index = 0; index < item.Shapes.Count; index++)
             {
+                var shape = item.Shapes[index];
                 shape.Owner = item;
+                shape.Id = (shape.Id < 0) ? index : shape.Id;
             }
 
             foreach (var shape in item.Shapes) //If this were .net 5+ and lang=latest, I could use a cool switch statement.
@@ -107,6 +109,15 @@ namespace LuggerWPF
             double arbitraryConstant = 60;
             double capacity = arbitraryConstant * item.Thickness * minDistance;
             return item.Demand / capacity;
+        }
+
+        public void ReNumberShapes()
+        {
+            for (var i = 0; i < Shapes.Count; i++)
+            {
+                var shape = Shapes[i];
+                shape.Id = i;
+            }
         }
 
         public static double GetDistance(Circle circle1, IShape anyShape)

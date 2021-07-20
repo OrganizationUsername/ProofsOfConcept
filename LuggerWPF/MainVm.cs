@@ -13,8 +13,9 @@ using LuggerWPF.Annotations;
 //TODO: Round thicknesses
 //TODO: Save to Excel
 //TODO: Read from Excel
-//TODO: Allow circles to be deleted
-//TODO: Label circles in "Existing shapes" and in Canvas
+//TODO: Figure out how to immediately renumber circles after one is deleted.
+//TODO: Label circles in Canvas
+//TODO: Validate circles on move
 //TODO: Undo/Redo
 //TODO: Parameterize unit tests
 //"The object mother" //https://stackoverflow.com/questions/923319/what-is-an-objectmother
@@ -39,6 +40,7 @@ namespace LuggerWPF
         public OpenExcelCommand OpenExcelCommand { get; set; }
         public SaveExcelCommand SaveExcelCommand { get; set; }
         public FixCommand FixCommand { get; set; }
+        public DeleteShapeCommand DeleteShapeCommand { get; set; }
 
         public Item SelectedItem
         {
@@ -53,6 +55,8 @@ namespace LuggerWPF
             OpenExcelCommand = new OpenExcelCommand(this);
             SaveExcelCommand = new SaveExcelCommand(this);
             FixCommand = new FixCommand(this);
+            DeleteShapeCommand = new DeleteShapeCommand(this);
+
 
             Items.Add(new Item()
             {

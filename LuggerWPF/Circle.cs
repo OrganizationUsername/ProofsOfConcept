@@ -10,8 +10,15 @@ namespace LuggerWPF
         private double _y;
         private double _x;
         private double _diameter;
+        private int _id = -1;
         public double Width { get; set; }
         public double Height { get; set; }
+
+        public int Id
+        {
+            get => _id;
+            set => Setter(value, ref _id);
+        }
 
         public double X
         {

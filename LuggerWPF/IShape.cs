@@ -8,5 +8,6 @@
         double X { get; set; }
         double Y { get; set; }
         double Diameter { get; set; }
+        int Id { get; set; }
     }
 }

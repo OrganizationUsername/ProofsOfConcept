@@ -55,9 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BindingProxy.cs" />
     <Compile Include="Commands\AddAssemblyCommand.cs" />
     <Compile Include="Commands\AddShapeCommand.cs" />
     <Compile Include="Circle.cs" />
+    <Compile Include="Commands\DeleteShapeCommand.cs" />
     <Compile Include="Commands\OpenExcelCommand.cs" />
     <Compile Include="Commands\SaveExcelCommand.cs" />
     <Compile Include="Commands\FixCommand.cs" />

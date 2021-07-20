@@ -15,6 +15,7 @@
     <Window.Resources>
         <converter:BoolConverter x:Key="BoolColorConverter"/>
         <converter:BoolToBool x:Key="BoolToBoolConverter"/>
+        <local:BindingProxy x:Key="DeleteShapeCommand" Data="{Binding DeleteShapeCommand}"/>
     </Window.Resources>
     <StackPanel>
         <DockPanel>
@@ -160,7 +161,13 @@
                             <ItemsControl ItemsSource="{Binding Path=SelectedItem.Shapes}">
                                 <ItemsControl.Resources>
                                     <DataTemplate DataType="{x:Type local:Rectangle}">
-                                        <GroupBox Header="Rectangle">
+                                        <GroupBox>
+                                            <GroupBox.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Rectangle- "/>
+                                                    <TextBlock Text="{Binding Id}"/>
+                                                </StackPanel>
+                                            </GroupBox.Header>
                                             <StackPanel>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="X: " Width="60"/>
@@ -182,7 +189,13 @@
                                         </GroupBox>
                                     </DataTemplate>
                                     <DataTemplate DataType="{x:Type local:Circle}">
-                                        <GroupBox Header="Circle">
+                                        <GroupBox>
+                                            <GroupBox.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Circle- "/>
+                                                    <TextBlock Text="{Binding Id}"/>
+                                                </StackPanel>
+                                            </GroupBox.Header>
                                             <StackPanel>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Diameter: " Width="60"/>
@@ -196,6 +209,9 @@
                                                     <TextBlock Text="Y: " Width="60"/>
                                                     <TextBox Text="{Binding Y}" Width="100"/>
                                                 </StackPanel>
+                                                <Button Content="Delete" Width="160" HorizontalAlignment="Left" 
+                                                        Command="{Binding Path=Data, Source={StaticResource DeleteShapeCommand}}"
+                                                        CommandParameter="{Binding Path=Id}"/>
                                             </StackPanel>
                                         </GroupBox>
                                     </DataTemplate>
