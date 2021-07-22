@@ -15,6 +15,7 @@ The program checks the distance from circles to the edge of a rectangular plate 
 - Round rectangle thicknesses to user-defined values
 - Smooth thickness values to match a maximum of n values
 - Allow arbitrary polygons in place of the rectangle
+- Allow arbitrary user-defined demand/capacity functions
 
 ## Bugs
 Certain aspects of the UI may not update after adding/removing/editing shapes.
