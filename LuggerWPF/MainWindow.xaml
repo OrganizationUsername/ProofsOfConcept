@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LuggerWPF"
         xmlns:converter="clr-namespace:LuggerWPF.Converter"
+        xmlns:wpf="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         mc:Ignorable="d"
-        Title="ItemsPoC" Height="450" Width="800" Topmost="True"
+        Title="ItemsPoC" Height="450" Width="1200" Topmost="True"
 >
     <!--ResizeMode="NoResize"-->
     <Window.DataContext>
@@ -34,7 +35,7 @@
                 </MenuItem>-->
             </Menu>
             <GroupBox DockPanel.Dock="Left" Header="Existing Assemblies" Height="356">
-                <DockPanel>
+                <DockPanel LastChildFill="False">
                     <ListView 
                         DockPanel.Dock="Top"
                 ItemsSource="{Binding Path=Items}" 
@@ -221,7 +222,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </GroupBox>
-            <GroupBox Header="Canvas" DockPanel.Dock="Right">
+            <GroupBox DockPanel.Dock="Right" Width="400" Header="SkiaSharp">
+                <wpf:SKElement x:Name="Skia"/>
+            </GroupBox>
+            <GroupBox Header="Canvas" DockPanel.Dock="Right" Width="200">
                 <StackPanel>
                     <Canvas x:Name="DirtyCanvas" Height="200"/>
                 </StackPanel>

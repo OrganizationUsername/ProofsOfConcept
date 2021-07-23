@@ -4,11 +4,15 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Commands.LuggerWPF;
 using LuggerWPF.Annotations;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
+using SkiaSharp.Views.WPF;
 
 //TODO: Round thicknesses
 //TODO: Save to Excel
@@ -41,6 +45,7 @@ namespace LuggerWPF
         public SaveExcelCommand SaveExcelCommand { get; set; }
         public FixCommand FixCommand { get; set; }
         public DeleteShapeCommand DeleteShapeCommand { get; set; }
+        private SKElement a = new SKElement();
 
         public Item SelectedItem
         {
@@ -119,7 +124,63 @@ namespace LuggerWPF
         public void AddView(MainWindow mw)
         {
             MainWindow = mw;
+            mw.Skia.PaintSurface += OnSkiaOnPaintSurface; //To fix this: https://www.codeproject.com/Articles/5247780/Xamarin-SKIASharp-Guide-to-MVVM
             ThisIsBestPractice();
+        }
+
+        private void OnSkiaOnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+            if (this.MainWindow is null)
+            {
+                return;
+            }
+            // the the canvas and properties
+            var canvas = e.Surface.Canvas;
+
+            // get the screen density for scaling
+            var scale = (float)PresentationSource.FromVisual(this.MainWindow).CompositionTarget.TransformToDevice.M11;
+            var scaledSize = new SKSize(e.Info.Width / scale, e.Info.Height / scale);
+
+            // handle the device screen density
+            canvas.Scale(scale);
+
+            // make sure the canvas is blank
+            canvas.Clear(SKColors.White);
+
+            // draw some text
+            var paint = new SKPaint
+            {
+                Color = SKColors.Black,
+                IsAntialias = true,
+                Style = SKPaintStyle.Fill,
+                TextAlign = SKTextAlign.Center,
+                TextSize = 24
+            };
+            var coord = new SKPoint();
+            coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
+            canvas.DrawText("SkiaSharp", coord, paint);
+            canvas.Save();
+            canvas.RotateDegrees(45, scaledSize.Width / 2, scaledSize.Height / 2);
+            coord = new SKPoint(scaledSize.Width / 2 + 0, (scaledSize.Height + paint.TextSize) / 2 + 0);
+            canvas.DrawText("SkiaSharp2SkiaSharp2SkiaSharp2", coord, paint);
+            canvas.Restore();
+            canvas.DrawLine(0, 0, scaledSize.Width / 2, scaledSize.Height / 2, paint);
+
+            float outerRadis = 10f;
+
+
+            //var path = new SKPath();
+            //path.AddCircle(scaledSize.Width / 2, scaledSize.Height / 2, scaledSize.Width / 2 - 1f);
+            //canvas.ClipPath(path);
+            paint.StrokeWidth = 1f;
+            paint.IsStroke = true;
+            canvas.DrawCircle(coord, outerRadis, paint);
+
+
+            paint = new SKPaint() { Color = SKColors.Transparent };
+            canvas.DrawCircle(coord, outerRadis - 1f, paint);
+            //canvas.Save();
+
         }
 
         public void ThisIsBestPractice()

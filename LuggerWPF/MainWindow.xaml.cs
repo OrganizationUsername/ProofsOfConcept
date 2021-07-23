@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Shapes;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace LuggerWPF
 {
